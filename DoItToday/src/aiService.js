@@ -1,20 +1,20 @@
 const API_KEY = import.meta.env.VITE_ANTHROPIC_KEY;
-const API_URL = 'https://api.anthropic.com/v1/messages';
+const API_URL = "https://api.anthropic.com/v1/messages";
 
 const callClaude = async (prompt) => {
   const res = await fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
+      "Content-Type": "application/json",
+      "x-api-key": API_KEY,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true",
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
-      messages: [{ role: 'user', content: prompt }]
-    })
+      messages: [{ role: "user", content: prompt }],
+    }),
   });
   const data = await res.json();
   return data.content[0].text;

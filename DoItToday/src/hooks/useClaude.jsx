@@ -24,6 +24,7 @@ const useClaude = () => {
     try {
       return await suggestDescription(taskName);
     } catch (e) {
+      console.log(e);
       return "";
     }
   }, []);

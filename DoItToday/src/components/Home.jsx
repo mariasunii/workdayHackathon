@@ -17,7 +17,7 @@ const energyIcons = {
 };
 
 function Home() {
-  const { energy, setEnergy } = useTaskData();
+  const { energy, setEnergy, taskData } = useTaskData();
 
   const cycleEnergy = () => {
     const currentIndex = ENERGY_LEVELS.indexOf(energy);
