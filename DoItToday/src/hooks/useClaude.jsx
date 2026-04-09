@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { filterTasksByEnergy, suggestDescription } from './aiService';
+import { filterTasksByEnergy, suggestDescription } from '../aiService';
 
 const useClaude = () => {
   const [loading, setLoading] = useState(false);
