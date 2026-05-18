@@ -5,7 +5,9 @@ import SubTask from "./SubTask";
 import { useTaskData } from "../contexts/taskDataContext";
 import DisplayTask from "./DisplayTask";
 
-function parseAIResponse(text) {
+import type { TaskType, SubTaskType } from "../types/task";
+
+function parseAIResponse(text: string): Record<string, string> {
   const match = text.match(/```json\s*([\s\S]*?)\s*```/);
 
   if (!match) {
@@ -17,29 +19,27 @@ function parseAIResponse(text) {
 
 function AddTask() {
   const [task, setTask] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<Record<string, string>[] | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const { getDescriptionSuggestion } = useClaude();
   const navigate = useNavigate();
   const { addTask } = useTaskData();
 
-  const breakDownTask = async (taskText) => {
+  const breakDownTask = async (taskText: string): Promise<void> => {
     setLoading(true);
     setError(null);
     setResult(null);
-    const resultArr = [];
 
     try {
       const response = await getDescriptionSuggestion(taskText);
-      console.log(response);
+      // console.log(response);
       const data = parseAIResponse(response);
-      console.log(data);
+      // console.log(data);
       // const data = await response.json();
       // const text = data.content?.[0]?.text;
-      resultArr.push(data);
-      setResult(resultArr);
+      setResult([data]);
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
@@ -48,29 +48,31 @@ function AddTask() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!task.trim()) return;
     breakDownTask(task);
   };
 
-  const handleLater = (e) => {
+  const handleLater = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (!result) return;
+
     const aiTasks = result[0];
 
     // Convert AI object → subTasks array
-    const subTasks = Object.entries(aiTasks).map(([key, value]) => ({
-      id: Date.now() + Math.random(), // simple unique id
-      desc: value,
-      priority: "mid", // default (you can improve later)
-      dueDate: new Date().toISOString().split("T")[0],
-      isDone: false,
-    }));
-
-    console.log(subTasks);
+    const subTasks: SubTaskType[] = Object.entries(aiTasks).map(
+      ([key, value]) => ({
+        id: Date.now() + Math.random(), // simple unique id
+        desc: value,
+        priority: "mid", // default (you can improve later)
+        dueDate: new Date().toISOString().split("T")[0],
+        isDone: false,
+      }),
+    );
 
     // 🔹 Create full task
-    const newTask = {
+    const newTask: Omit<TaskType, "id"> = {
       desc: task,
       priority: "mid",
       dueDate: new Date().toISOString().split("T")[0],

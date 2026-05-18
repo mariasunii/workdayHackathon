@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useTaskData } from "../contexts/taskDataContext";
 import TaskCard from "./TaskCard";
+import { EnergyType } from "../types/task";
 
-const ENERGY_LEVELS = ["low", "medium", "high"];
+const ENERGY_LEVELS: EnergyType[] = ["low", "medium", "high"] as const;
 
 const energyStyles = {
   low: "border-l-4 border-l-blue-400 border-y border-r border-gray-200 bg-white text-gray-700",
@@ -28,7 +29,7 @@ function Home() {
     setEnergy(ENERGY_LEVELS[nextIndex]);
   };
 
-  const handleAddTask = () => {
+  const handleAddTask = (): void => {
     navigate("/addTask");
   };
 
@@ -46,7 +47,6 @@ function Home() {
         </button>
       </div>
       <div className={"flex flex-col gap-2"}>
-        {console.log(tasks)}
         {tasks.map((task) => (
           <TaskCard key={task.id} task={task} />
         ))}

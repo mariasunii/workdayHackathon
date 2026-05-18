@@ -1,4 +1,10 @@
-function TaskCard({ task }) {
+import { TaskType } from "../types/task";
+
+interface TaskCardProps {
+  task: TaskType;
+}
+
+function TaskCard({ task }: TaskCardProps) {
   return (
     <div className="p-4 rounded-lg shadow-sm bg-slate-50">
       {/* Task Description */}

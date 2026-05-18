@@ -1,35 +1,23 @@
 import "./App.css";
 
-import { Route, createHashRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import AppLayout from "./pages/AppLayout";
 
-import AddTask from "./components/AddTask";
-import Home from "./components/Home";
+import AppLayout from "./pages/AppLayout";
 import NotFoundPage from "./pages/notFound";
+import Home from "./components/Home";
+import AddTask from "./components/AddTask";
 import EnergySelector from "./components/EnergySelector";
 import TaskDataContextProvider from "./contexts/taskDataContextProvider";
-
-// const router = createHashRouter([
-//   {
-//     path: "/",
-//     Component: AppLayout,
-//     errorElement: <NotFoundPage />,
-//     children: [
-//       { index: true, Component: HomePage },
-//       { path: "/add", Component: FindProduct },
-//     ],
-//   },
-// ]);
 
 const router = createHashRouter([
   {
     path: "/",
     element: <AppLayout />,
-    errorElement: <NotFoundPage />, // shows on any error or bad route
+    errorElement: <NotFoundPage />,
     children: [
       {
-        index: true, // matches exactly "/"
+        index: true,
         element: <Home />,
       },
       {
@@ -44,13 +32,15 @@ const router = createHashRouter([
   },
 ]);
 
+/**
+ * Root application component.
+ * Wraps the app in a task data context and provides the router.
+ */
 function App() {
   return (
-    <>
-      <TaskDataContextProvider>
-        <RouterProvider router={router} />
-      </TaskDataContextProvider>
-    </>
+    <TaskDataContextProvider>
+      <RouterProvider router={router} />
+    </TaskDataContextProvider>
   );
 }
 

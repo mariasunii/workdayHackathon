@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { TaskDatacontext } from "./taskDataContext";
 
-const initialTasks = [
+import { type TaskType, type SubTaskType, EnergyType } from "../types/task";
+
+const initialTasks: TaskType[] = [
   {
     id: 1,
     desc: "Take morning medication",
@@ -62,11 +64,15 @@ const initialTasks = [
   },
 ];
 
-function TaskDataContextProvider({ children }) {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [energy, setEnergy] = useState("medium");
+interface TaskDataContextProviderProps {
+  children: React.ReactNode;
+}
 
-  const addTask = (newTask) => {
+function TaskDataContextProvider({ children }: TaskDataContextProviderProps) {
+  const [tasks, setTasks] = useState(initialTasks);
+  const [energy, setEnergy] = useState<EnergyType>("medium");
+
+  const addTask = (newTask: Omit<TaskType, "id">) => {
     setTasks((prev) => [
       ...prev,
       {

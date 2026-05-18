@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-function SubTask({ taskKey, taskValue }) {
+interface SubTaskProps {
+  taskKey: string;
+  taskValue: string;
+}
+
+function SubTask({ taskKey, taskValue }: SubTaskProps) {
   const [checked, setChecked] = useState(false);
 
   return (

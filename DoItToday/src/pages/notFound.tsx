@@ -1,6 +1,6 @@
 export default function NotFoundPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[linear-gradient(to_bottom_right,#f0f0f0,#ffffff)] flex items-center justify-center px-4">
       <div className="max-w-2xl w-full text-center">
         <div className="mb-8">
           <h1 className="text-9xl font-bold text-indigo-600 mb-4">404</h1>
@@ -16,7 +16,7 @@ export default function NotFoundPage() {
 
         <div className="flex justify-center">
           <a
-            href="/shoplist"
+            href="/"
             className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
           >
             Go Home
