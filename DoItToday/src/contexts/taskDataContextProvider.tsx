@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TaskDatacontext } from "./taskDataContext";
 
 const initialTasks = [
@@ -72,8 +72,8 @@ function TaskDataContextProvider({ children }) {
       {
         ...newTask,
         id: Date.now(), // simple unique id
-        subTasks: [],
-        isDone: false,
+        subTasks: newTask.subTasks || [],
+        isDone: newTask.isDone ?? false,
       },
     ]);
   };
@@ -81,10 +81,10 @@ function TaskDataContextProvider({ children }) {
   return (
     <TaskDatacontext.Provider
       value={{
-        taskData: tasks,
-        energy: energy,
-        setEnergy: setEnergy,
-        addTask: addTask,
+        tasks,
+        energy,
+        setEnergy,
+        addTask,
       }}
     >
       {children}

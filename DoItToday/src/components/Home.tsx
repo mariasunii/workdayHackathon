@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTaskData } from "../contexts/taskDataContext";
+import TaskCard from "./TaskCard";
 
 const ENERGY_LEVELS = ["low", "medium", "high"];
 
@@ -17,7 +18,8 @@ const energyIcons = {
 };
 
 function Home() {
-  const { energy, setEnergy, taskData } = useTaskData();
+  const { energy, setEnergy, tasks } = useTaskData();
+  const navigate = useNavigate();
 
   const cycleEnergy = () => {
     const currentIndex = ENERGY_LEVELS.indexOf(energy);
@@ -26,17 +28,37 @@ function Home() {
     setEnergy(ENERGY_LEVELS[nextIndex]);
   };
 
+  const handleAddTask = () => {
+    navigate("/addTask");
+  };
+
   return (
     <div className="p-6">
       {/** top plane */}
       <div className="flex items-center gap-3 justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">My Tasks</h1>
+        <h1 className="text-2xl font-extrabold text-gray-800">My Tasks</h1>
         <button
           onClick={cycleEnergy}
           className={`flex items-center gap-1.5 px-3 py-1 rounded-md border text-sm font-medium transition-all duration-200 ${energyStyles[energy]}`}
         >
           <span style={{ fontSize: "14px" }}>{energyIcons[energy]}</span>
           <span>{energy} energy</span>
+        </button>
+      </div>
+      <div className={"flex flex-col gap-2"}>
+        {console.log(tasks)}
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} />
+        ))}
+      </div>
+
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 flex justify-center">
+        <button
+          onClick={handleAddTask}
+          className="flex items-center gap-2 bg-gray-800 text-white px-5 py-3 rounded-full shadow-md hover:bg-gray-700 active:scale-95 transition-all"
+        >
+          <span className="text-xl">＋</span>
+          <span className="text-sm font-medium">Add Task</span>
         </button>
       </div>
     </div>

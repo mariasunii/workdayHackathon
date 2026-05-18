@@ -34,9 +34,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
+    /* --text: #9ca3af; */
+    --text: #16171d;
+    /* --text-h: #16171d; */
+    /* --text-h: #f3f4f6; */
+    /* --bg: #16171d; */
+    /* --bg: #d3d6db; */
+    /* --bg: #fdeaf3; */
+    /* --bg: #fff; */
+    --bg: #f0f0f0;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;

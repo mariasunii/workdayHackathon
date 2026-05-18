@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useClaude from "../hooks/useClaude";
 import SubTask from "./SubTask";
 import { useTaskData } from "../contexts/taskDataContext";
+import DisplayTask from "./DisplayTask";
 
 function parseAIResponse(text) {
   const match = text.match(/```json\s*([\s\S]*?)\s*```/);
@@ -20,6 +22,7 @@ function AddTask() {
   const [error, setError] = useState(null);
 
   const { getDescriptionSuggestion } = useClaude();
+  const navigate = useNavigate();
   const { addTask } = useTaskData();
 
   const breakDownTask = async (taskText) => {
@@ -53,28 +56,36 @@ function AddTask() {
 
   const handleLater = (e) => {
     e.preventDefault();
-    if (!result) return;
-    //   {
-    //   id: 1,
-    //   desc: "Take morning medication",
-    //   priority: "high",
-    //   dueDate: "2026-04-09",
-    //   category: "Health",
-    //   isDone: false,
-    //   subTasks: [
-    //     {
-    //       id: 11,
-    //       desc: "Check pill organiser",
-    //       priority: "high",
-    //       dueDate: "2026-04-09",
-    //       isDone: false,
-    //     },
-    //   ],
-    // },
-    // const newTask = {
-    //   desc: task,
-    //   id: new Date(),
-    // };
+    const aiTasks = result[0];
+
+    // Convert AI object → subTasks array
+    const subTasks = Object.entries(aiTasks).map(([key, value]) => ({
+      id: Date.now() + Math.random(), // simple unique id
+      desc: value,
+      priority: "mid", // default (you can improve later)
+      dueDate: new Date().toISOString().split("T")[0],
+      isDone: false,
+    }));
+
+    console.log(subTasks);
+
+    // 🔹 Create full task
+    const newTask = {
+      desc: task,
+      priority: "mid",
+      dueDate: new Date().toISOString().split("T")[0],
+      category: "General",
+      isDone: false,
+      subTasks: subTasks,
+    };
+
+    //  Add to context
+    addTask(newTask);
+
+    //Optional: reset UI or navigate
+    navigate("/");
+    // setTask("");
+    // setResult(null);
   };
 
   return (
@@ -129,12 +140,13 @@ function AddTask() {
           </div>
 
           <button
-            className="p-2 bg-gray-500 text-blue-600"
+            className="mt-2 px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleLater}
           >
             Do It Later
           </button>
         </div>
+        // <DisplayTask task={[result[0]]} handleLater={handleLater} />
       )}
     </div>
   );
