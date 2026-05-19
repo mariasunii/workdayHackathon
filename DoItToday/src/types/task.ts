@@ -17,3 +17,5 @@ export interface TaskType {
 }
 
 export type EnergyType = "low" | "medium" | "high";
+export type TaskPriority = TaskType["priority"];
+export type CreateTaskInput = Omit<TaskType, "id">;

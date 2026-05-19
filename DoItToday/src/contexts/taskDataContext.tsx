@@ -6,6 +6,7 @@ export interface TaskDataContextType {
   energy: EnergyType;
   setEnergy: (energy: EnergyType) => void;
   addTask: (task: Omit<TaskType, "id">) => void;
+  getTaskById: (id: number) => TaskType | undefined;
 }
 
 export const TaskDatacontext = createContext<TaskDataContextType | null>(null);

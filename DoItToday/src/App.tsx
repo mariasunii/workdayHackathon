@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import AddTask from "./components/AddTask";
 import EnergySelector from "./components/EnergySelector";
 import TaskDataContextProvider from "./contexts/taskDataContextProvider";
+import Task from "./components/Task";
 
 const router = createHashRouter([
   {
@@ -27,6 +28,10 @@ const router = createHashRouter([
       {
         path: "addTask/",
         element: <AddTask />,
+      },
+      {
+        path: "tasks/:id",
+        element: <Task />,
       },
     ],
   },

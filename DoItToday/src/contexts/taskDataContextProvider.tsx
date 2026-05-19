@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useMemo, useReducer, useState } from "react";
 import { TaskDatacontext } from "./taskDataContext";
 
-import { type TaskType, type SubTaskType, EnergyType } from "../types/task";
+import type { CreateTaskInput, EnergyType, TaskType } from "../types/task";
 
 const initialTasks: TaskType[] = [
   {
@@ -68,31 +68,46 @@ interface TaskDataContextProviderProps {
   children: React.ReactNode;
 }
 
+type TaskAction = { type: "task/add"; payload: CreateTaskInput };
+
+function taskReducer(tasks: TaskType[], action: TaskAction): TaskType[] {
+  switch (action.type) {
+    case "task/add":
+      return [
+        ...tasks,
+        {
+          ...action.payload,
+          id: Date.now(),
+          subTasks: action.payload.subTasks ?? [],
+          isDone: action.payload.isDone ?? false,
+        },
+      ];
+    default:
+      return tasks;
+  }
+}
+
 function TaskDataContextProvider({ children }: TaskDataContextProviderProps) {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   const [energy, setEnergy] = useState<EnergyType>("medium");
 
-  const addTask = (newTask: Omit<TaskType, "id">) => {
-    setTasks((prev) => [
-      ...prev,
-      {
-        ...newTask,
-        id: Date.now(), // simple unique id
-        subTasks: newTask.subTasks || [],
-        isDone: newTask.isDone ?? false,
+  const value = useMemo(
+    () => ({
+      tasks,
+      energy,
+      setEnergy,
+      addTask: (newTask: CreateTaskInput) => {
+        dispatch({ type: "task/add", payload: newTask });
       },
-    ]);
-  };
+      getTaskById: (id: number) => {
+        return tasks.find((task) => task.id == id);
+      },
+    }),
+    [tasks, energy],
+  );
 
   return (
-    <TaskDatacontext.Provider
-      value={{
-        tasks,
-        energy,
-        setEnergy,
-        addTask,
-      }}
-    >
+    <TaskDatacontext.Provider value={value}>
       {children}
     </TaskDatacontext.Provider>
   );

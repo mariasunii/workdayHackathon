@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
 
 interface SubTaskProps {
   taskKey: string;
@@ -9,7 +10,7 @@ function SubTask({ taskKey, taskValue }: SubTaskProps) {
   const [checked, setChecked] = useState(false);
 
   return (
-    <div className="flex items-center gap-2 p-2 border-b">
+    <div className="flex justify-between items-center gap-2  p-4 rounded-lg shadow-sm bg-slate-50">
       <input
         type="checkbox"
         checked={checked}
@@ -21,8 +22,14 @@ function SubTask({ taskKey, taskValue }: SubTaskProps) {
           checked ? "line-through text-gray-400" : ""
         }`}
       >
-        <strong>{taskKey}:</strong> {taskValue}
+        <div className="text-left px-3">
+          {/* <p>{taskKey}:</p> */}
+          <p className="text-app-primary font-bold"> {taskValue}</p>
+        </div>
       </label>
+      <span>
+        <Plus />
+      </span>
     </div>
   );
 }

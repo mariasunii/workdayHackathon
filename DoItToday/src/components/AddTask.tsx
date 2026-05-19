@@ -36,7 +36,7 @@ function AddTask() {
       const response = await getDescriptionSuggestion(taskText);
       // console.log(response);
       const data = parseAIResponse(response);
-      // console.log(data);
+      console.log(data);
       // const data = await response.json();
       // const text = data.content?.[0]?.text;
       setResult([data]);
@@ -131,11 +131,11 @@ function AddTask() {
 
       {/* Result */}
       {result && !loading && (
-        <div className="mt-6">
+        <div className="mt-6 text-left">
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
             Subtasks
           </p>
-          <div className="px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md whitespace-pre-wrap leading-relaxed">
+          <div className="px-4 py-3 text-sm h-full flex flex-col gap-4">
             {Object.entries(result[0]).map(([key, value]) => (
               <SubTask key={key} taskKey={key} taskValue={value} />
             ))}

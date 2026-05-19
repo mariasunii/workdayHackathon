@@ -1,15 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
+  --app-bg: #ffffff;
+  --app-surface: #ffffff;
+  --app-surface-muted: #f8fafc;
+  --app-text: #4b5563;
+  --app-heading: #111827;
+  --app-muted: #424b5c;
+  --app-border: #e5e7eb;
+  --app-border-strong: #9ca3af;
+  --app-primary: #1f2937;
+  --app-primary-hover: #374151;
+  --app-primary-foreground: #ffffff;
+  --energy-low: #60a5fa;
+  --energy-medium: #f59e0b;
+  --energy-high: #f87171;
+  --priority-low: #16a34a;
+  --priority-low-bg: #dcfce7;
+  --priority-mid: #ca8a04;
+  --priority-mid-bg: #fef3c7;
+  --priority-high: #dc2626;
+  --priority-high-bg: #fee2e2;
+  --status-danger: #dc2626;
+  --status-danger-bg: #fef2f2;
+  --status-danger-border: #fecaca;
   --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
@@ -20,8 +35,8 @@
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--app-text);
+  background: var(--app-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,30 +47,47 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --text: #9ca3af; */
-    --text: #16171d;
-    /* --text-h: #16171d; */
-    /* --text-h: #f3f4f6; */
-    /* --bg: #16171d; */
-    /* --bg: #d3d6db; */
-    /* --bg: #fdeaf3; */
-    /* --bg: #fff; */
-    --bg: #f0f0f0;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+@theme {
+  --color-app-bg: var(--app-bg);
+  --color-app-surface: var(--app-surface);
+  --color-app-surface-muted: var(--app-surface-muted);
+  --color-app-text: var(--app-text);
+  --color-app-heading: var(--app-heading);
+  --color-app-muted: var(--app-muted);
+  --color-app-border: var(--app-border);
+  --color-app-border-strong: var(--app-border-strong);
+  --color-app-primary: var(--app-primary);
+  --color-app-primary-hover: var(--app-primary-hover);
+  --color-app-primary-foreground: var(--app-primary-foreground);
+  --color-energy-low: var(--energy-low);
+  --color-energy-medium: var(--energy-medium);
+  --color-energy-high: var(--energy-high);
+  --color-priority-low: var(--priority-low);
+  --color-priority-low-bg: var(--priority-low-bg);
+  --color-priority-mid: var(--priority-mid);
+  --color-priority-mid-bg: var(--priority-mid-bg);
+  --color-priority-high: var(--priority-high);
+  --color-priority-high-bg: var(--priority-high-bg);
+  --color-status-danger: var(--status-danger);
+  --color-status-danger-bg: var(--status-danger-bg);
+  --color-status-danger-border: var(--status-danger-border);
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+[data-theme="dark"] {
+  --app-bg: #111827;
+  --app-surface: #1f2937;
+  --app-surface-muted: #172033;
+  --app-text: #d1d5db;
+  --app-heading: #f9fafb;
+  --app-muted: #9ca3af;
+  --app-border: #374151;
+  --app-border-strong: #6b7280;
+  --app-primary: #c4b5fd;
+  --app-primary-hover: #a78bfa;
+  --app-primary-foreground: #111827;
+  --code-bg: #1f2937;
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
 }
 
 body {
@@ -67,7 +99,7 @@ body {
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
+  border-inline: 1px solid var(--app-border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -78,16 +110,16 @@ h1,
 h2 {
   font-family: var(--heading);
   font-weight: 500;
-  color: var(--text-h);
+  color: var(--app-heading);
 }
 
 h1 {
   font-size: 56px;
-  letter-spacing: -1.68px;
+  /* letter-spacing: -1.68px; */
   margin: 32px 0;
   @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+    font-size: 2rem;
+    margin: 10px 0;
   }
 }
 h2 {
@@ -103,12 +135,16 @@ p {
   margin: 0;
 }
 
+input[type="checkbox"] {
+  transform: scale(2);
+}
+
 code,
 .counter {
   font-family: var(--mono);
   display: inline-flex;
   border-radius: 4px;
-  color: var(--text-h);
+  color: var(--app-heading);
 }
 
 code {

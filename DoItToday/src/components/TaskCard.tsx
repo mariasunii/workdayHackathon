@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { TaskType } from "../types/task";
 
 interface TaskCardProps {
@@ -5,19 +6,25 @@ interface TaskCardProps {
 }
 
 function TaskCard({ task }: TaskCardProps) {
+  const navigate = useNavigate();
+
   return (
-    <div className="p-4 rounded-lg shadow-sm bg-slate-50">
+    <div
+      className="p-4 rounded-lg shadow-sm bg-slate-50 text-left"
+      onClick={() => navigate(`/tasks/${task.id}`)}
+    >
       {/* Task Description */}
       <h2 className="text-lg font-semibold text-black-800">{task.desc}</h2>
 
-      {/* Subtask Count */}
-      <p className="text-sm text-gray-500 mt-1">
-        Subtasks: {task.subTasks?.length || 0}
-      </p>
+      <div className="flex justify-between items-center mt-5">
+        {/* Subtask Count */}
+        <p className="text-sm text-gray-500 mt-1">
+          Subtasks: {task.subTasks?.length || 0}
+        </p>
 
-      {/* Priority */}
-      <p
-        className={`mt-2 text-xs font-medium px-2 py-1 inline-block rounded 
+        {/* Priority */}
+        <p
+          className={`mt-2 text-xs font-medium px-2 py-1 inline-block rounded 
         ${
           task.priority === "high"
             ? "bg-red-100 text-red-600"
@@ -25,9 +32,10 @@ function TaskCard({ task }: TaskCardProps) {
               ? "bg-yellow-100 text-yellow-600"
               : "bg-green-100 text-green-600"
         }`}
-      >
-        {task.priority.toUpperCase()} PRIORITY
-      </p>
+        >
+          {task.priority.toUpperCase()} PRIORITY
+        </p>
+      </div>
     </div>
   );
 }
