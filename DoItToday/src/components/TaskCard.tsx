@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
 import { TaskType } from "../types/task";
+import { useRouter } from "next/navigation";
 
 interface TaskCardProps {
   task: TaskType;
 }
 
 function TaskCard({ task }: TaskCardProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <div
       className="p-4 rounded-lg shadow-sm bg-slate-50 text-left"
-      onClick={() => navigate(`/tasks/${task.id}`)}
+      onClick={() => router.push(`/tasks/${task.id}`)}
     >
       {/* Task Description */}
       <h2 className="text-lg font-semibold text-black-800">{task.desc}</h2>

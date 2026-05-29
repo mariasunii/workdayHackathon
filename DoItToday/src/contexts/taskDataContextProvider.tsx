@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo, useReducer, useState } from "react";
 import { TaskDatacontext } from "./taskDataContext";
 

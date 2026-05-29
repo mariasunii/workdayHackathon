@@ -1,6 +1,9 @@
-import { EnergyType, TaskType } from "./types/task";
+import { EnergyType, TaskType } from "../types/task";
 
-const API_KEY = import.meta.env.VITE_ANTHROPIC_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_ANTHROPIC_KEY;
+if (!API_KEY) {
+  throw new Error("Missing NEXT_PUBLIC_ANTHROPIC_KEY");
+}
 const API_URL = "https://api.anthropic.com/v1/messages";
 
 // --- Types ---
@@ -41,7 +44,7 @@ const callClaude = async (prompt: string): Promise<string> => {
 };
 
 export const filterTasksByEnergy = async (
-  tasks: TaskType,
+  tasks: TaskType[],
   energy: EnergyType,
 ): Promise<FilteredTask> => {
   const prompt = `The user's energy today is: ${energy}.

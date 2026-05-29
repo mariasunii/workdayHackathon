@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useTaskData } from "../contexts/taskDataContext";
 import TaskCard from "./TaskCard";
 import { EnergyType } from "../types/task";
@@ -20,7 +22,7 @@ const energyIcons = {
 
 function Home() {
   const { energy, setEnergy, tasks } = useTaskData();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const cycleEnergy = () => {
     const currentIndex = ENERGY_LEVELS.indexOf(energy);
@@ -30,7 +32,7 @@ function Home() {
   };
 
   const handleAddTask = (): void => {
-    navigate("/addTask");
+    router.push("/addTask");
   };
 
   return (

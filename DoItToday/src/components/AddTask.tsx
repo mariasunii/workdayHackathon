@@ -1,11 +1,13 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useClaude from "../hooks/useClaude";
 import SubTask from "./SubTask";
 import { useTaskData } from "../contexts/taskDataContext";
 import DisplayTask from "./DisplayTask";
 
 import type { TaskType, SubTaskType } from "../types/task";
+import { useRouter } from "next/navigation";
 
 function parseAIResponse(text: string): Record<string, string> {
   const match = text.match(/```json\s*([\s\S]*?)\s*```/);
@@ -24,7 +26,7 @@ function AddTask() {
   const [error, setError] = useState<string | null>(null);
 
   const { getDescriptionSuggestion } = useClaude();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { addTask } = useTaskData();
 
   const breakDownTask = async (taskText: string): Promise<void> => {
@@ -85,7 +87,7 @@ function AddTask() {
     addTask(newTask);
 
     //Optional: reset UI or navigate
-    navigate("/");
+    router.push("/");
     // setTask("");
     // setResult(null);
   };
